@@ -1,20 +1,34 @@
-var circle = document.getElementById("circle");
-var upBtn = document.getElementById("upBtn");
-var downBtn = document.getElementById("downBtn");
+document.addEventListener("DOMContentLoaded", function() {
+    var circle = document.getElementById("circle");
+    var upBtn = document.getElementById("upBtn");
+    var downBtn = document.getElementById("downBtn");
 
-var rotateValue = circle.style.transform || "rotate(0deg)";
-var rotateSum;
+    if (!circle || !upBtn || !downBtn) {
+        console.error("Missing required elements: #circle, #upBtn, or #downBtn");
+        return;
+    }
 
-upBtn.onclick = function() {
-    rotateSum = "rotate(" + (getCurrentRotation(circle) - 90) + "deg)";
+    upBtn.addEventListener("click", function() {
+        rotateCircle(circle, -90);
+    });
+
+    downBtn.addEventListener("click", function() {
+        rotateCircle(circle, 90);
+    });
+
+    document.addEventListener("keydown", function(e) {
+        if (e.key === "ArrowUp") {
+            rotateCircle(circle, -90);
+        }
+        if (e.key === "ArrowDown") {
+            rotateCircle(circle, 90);
+        }
+    });
+});
+
+function rotateCircle(circle, step) {
+    var rotateSum = "rotate(" + (getCurrentRotation(circle) + step) + "deg)";
     circle.style.transform = rotateSum;
-    rotateValue = rotateSum;
-}
-
-downBtn.onclick = function() {
-    rotateSum = "rotate(" + (getCurrentRotation(circle) + 90) + "deg)";
-    circle.style.transform = rotateSum;
-    rotateValue = rotateSum;
 }
 
 function getCurrentRotation(el) {
